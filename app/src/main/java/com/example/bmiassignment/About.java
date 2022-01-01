@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class About extends AppCompatActivity {
+    TextView githup,youtube,email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,12 @@ public class About extends AppCompatActivity {
             }
         });
 
-
+        githup = findViewById(R.id.gitLink);
+        githup.setMovementMethod(LinkMovementMethod.getInstance());
+        youtube = findViewById(R.id.tubeLink);
+        youtube.setMovementMethod(LinkMovementMethod.getInstance());
+        email = findViewById(R.id.mailLink);
+        email.setMovementMethod(LinkMovementMethod.getInstance());
 
 
     }
