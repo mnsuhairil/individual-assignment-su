@@ -29,7 +29,7 @@ public class About extends AppCompatActivity {
 
                 switch(menuItem.getItemId()){
                     case R.id.Exit:
-                        moveTaskToBack(true);
+                        //moveTaskToBack(true); //debug
                         android.os.Process.killProcess(android.os.Process.myPid());
                         System.exit(1);
                         return true;

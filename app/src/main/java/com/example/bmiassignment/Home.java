@@ -1,5 +1,7 @@
 package com.example.bmiassignment;
 
+import static java.lang.String.format;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -17,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class Home extends AppCompatActivity {
 
@@ -26,7 +30,7 @@ public class Home extends AppCompatActivity {
     EditText weight, height;
     TextView resulttext, category, healthrisk,u2;
     String calculation, BMIresult, healthtext,S1,S2, text;
-    boolean cancel=false;
+    boolean cancel = false;
     float heightValue, weightValue;
 
     @Override
@@ -168,8 +172,9 @@ public class Home extends AppCompatActivity {
             BMIresult = "Very Severely Obese";
             healthtext = "Very High Risk";
         }
-
-        calculation = bmi + " kg/m²";
+        DecimalFormat df = new DecimalFormat("#.#");
+        df.setRoundingMode(RoundingMode.CEILING);
+        calculation = df.format(bmi) + " kg/m²";
         resulttext.setText(calculation);
         category.setText(BMIresult);
         healthrisk.setText(healthtext);
