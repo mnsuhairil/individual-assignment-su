@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg1"
     tools:context=".About">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,7 +16,7 @@
         app:itemIconTint="@drawable/selector"
         app:itemRippleColor="#D60000"
         app:itemTextColor="@drawable/selector"
-        app:menu="@menu/menu_navigation" >
+        app:menu="@menu/menu_navigation">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
@@ -101,6 +101,7 @@
         android:layout_marginLeft="82dp"
         android:layout_marginBottom="259dp"
         android:text=" CONTACT HYPER LINK : "
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -113,6 +114,7 @@
         android:layout_marginStart="125dp"
         android:layout_marginLeft="125dp"
         android:layout_marginBottom="223dp"
+        android:textColor="@color/white"
         android:text="@string/emaillink" />
 
     <TextView
@@ -126,6 +128,7 @@
         android:layout_marginStart="124dp"
         android:layout_marginLeft="124dp"
         android:layout_marginBottom="183dp"
+        android:textColor="@color/white"
         android:text="@string/youtubelink" />
 
     <TextView
@@ -138,7 +141,7 @@
         android:layout_marginStart="123dp"
         android:layout_marginLeft="123dp"
         android:layout_marginBottom="144dp"
-        android:clickable="true"
+        android:textColor="@color/white"
         android:text="@string/githublink" />
 
     <ImageView

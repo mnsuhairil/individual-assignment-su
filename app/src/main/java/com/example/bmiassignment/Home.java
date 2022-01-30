@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -32,6 +35,8 @@ public class Home extends AppCompatActivity {
     String calculation, BMIresult, healthtext,S1,S2, text;
     boolean cancel = false;
     float heightValue, weightValue;
+    String getWeight,getHeight;
+    Button calcuBtn,cm,m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,9 @@ public class Home extends AppCompatActivity {
         category = findViewById(R.id.textViewCategory);
         healthrisk = findViewById(R.id.healthrisk);
         u2 = findViewById(R.id.units2);
+        calcuBtn=findViewById(R.id.btnCalcu);
+        cm=findViewById(R.id.Centi);
+        m=findViewById(R.id.Meter);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -121,101 +129,169 @@ public class Home extends AppCompatActivity {
             }
         }
 
+
+
+        calcuBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                getHeight=height.getText().toString();
+                getWeight=weight.getText().toString();
+
+                if(getWeight.equals(""))
+                {
+                    Toast.makeText(Home.this, "PLEASE ENTER WEIGHT", Toast.LENGTH_SHORT).show();
+                    //this.weight.setText("0");
+                    return;
+                }else
+                if(getHeight.equals(""))
+                {
+                    Toast.makeText(Home.this, "PLEASE ENTER HEIGHT", Toast.LENGTH_SHORT).show();
+                    //this.height.setText("0");
+                    return;
+                }
+                if (cancel == false)
+                {
+                    S1 = weight.getText().toString();
+                    S2 = height.getText().toString();
+                    weightValue = Float.parseFloat(S1);
+                    heightValue = Float.parseFloat(S2);
+                }
+
+                float bmi = weightValue / (heightValue * heightValue);
+                if(bmi <= 18.4){
+                    BMIresult = "Under Weight";
+                    healthtext = "Malnutrition Risk";
+                }else if(bmi > 18.4 && bmi <= 24.9){
+                    BMIresult = "Normal Weight";
+                    healthtext = "Low Risk";
+                }else if (bmi > 24.9 && bmi <= 29.9){
+                    BMIresult = "Overweight";
+                    healthtext = "Enchanced Risk";
+                }else if (bmi > 29.9 && bmi <= 34.9){
+                    BMIresult = "Moderately Obese";
+                    healthtext = "Medium Risk";
+                }else if (bmi > 34.9 && bmi <= 39.9){
+                    BMIresult = "Severely Obese";
+                    healthtext = "High Risk";
+                }else if (bmi > 39.9){
+                    BMIresult = "Very Severely Obese";
+                    healthtext = "Very High Risk";
+                }
+                DecimalFormat df = new DecimalFormat("#.#");
+                df.setRoundingMode(RoundingMode.CEILING);
+                calculation = df.format(bmi) + " kg/m²";
+                resulttext.setText(calculation);
+                category.setText(BMIresult);
+                healthrisk.setText(healthtext);
+
+                String txt1 = weight.getText().toString();
+                String txt2 = height.getText().toString();
+                FileOutputStream fos1 = null;
+                try {
+                    fos1 = openFileOutput(FILE_NAME1, MODE_PRIVATE);
+                    fos1.write(txt1.getBytes());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    if(fos1!=null){
+                        try {
+                            fos1.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                FileOutputStream fos2 = null;
+                try {
+                    fos2 = openFileOutput(FILE_NAME2, MODE_PRIVATE);
+                    fos2.write(txt2.getBytes());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    if(fos2!=null){
+                        try {
+                            fos2.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+        cm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getHeight=height.getText().toString();
+                getWeight=weight.getText().toString();
+                if(getWeight.equals(""))
+                {
+                    Toast.makeText(Home.this, "PLEASE ENTER WEIGHT", Toast.LENGTH_SHORT).show();
+                    //this.weight.setText("0");
+                    return;
+                }else
+                if(getHeight.equals(""))
+                {
+                    Toast.makeText(Home.this, "PLEASE ENTER HEIGHT", Toast.LENGTH_SHORT).show();
+                    //this.height.setText("0");
+                    return;
+                }
+                text = "cm";
+                u2.setText(text);
+                S1 = weight.getText().toString();
+                S2 = height.getText().toString();
+                weightValue = Float.parseFloat(S1);
+                heightValue = Float.parseFloat(S2) / 100;
+                cancel = true;
+            }
+        });
+        m.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getHeight=height.getText().toString();
+                getWeight=weight.getText().toString();
+                if(getWeight.equals(""))
+                {
+                    Toast.makeText(Home.this, "PLEASE ENTER WEIGHT", Toast.LENGTH_SHORT).show();
+                    //this.weight.setText("0");
+                    return;
+                }else
+                if(getHeight.equals(""))
+                {
+                    Toast.makeText(Home.this, "PLEASE ENTER HEIGHT", Toast.LENGTH_SHORT).show();
+                    //this.height.setText("0");
+                    return;
+                }
+                text = "m";
+                u2.setText(text);
+                S1 = weight.getText().toString();
+                S2 = height.getText().toString();
+                weightValue = Float.parseFloat(S1);
+                heightValue = Float.parseFloat(S2);
+                cancel = true;
+            }
+        });
     }
 
+
+
     public void converterCM(View view){
-        text = "cm";
-        u2.setText(text);
-        this.S1 = this.weight.getText().toString();
-        this.S2 = this.height.getText().toString();
-        this.weightValue = Float.parseFloat(this.S1);
-        this.heightValue = Float.parseFloat(this.S2) / 100;
-        cancel = true;
+
     }
     public void converterM(View view){
-        text = "m";
-        u2.setText(text);
-        this.S1 = this.weight.getText().toString();
-        this.S2 = this.height.getText().toString();
-        this.weightValue = Float.parseFloat(this.S1);
-        this.heightValue = Float.parseFloat(this.S2);
-        cancel = true;
+
     }
 
     public void calcuResult(View view) {
 
-        if (this.cancel == false)
-        {
-            this.S1 = this.weight.getText().toString();
-            this.S2 = this.height.getText().toString();
-            this.weightValue = Float.parseFloat(this.S1);
-            this.heightValue = Float.parseFloat(this.S2);
-        }
 
-        float bmi = this.weightValue / (this.heightValue * this.heightValue);
-        if(bmi <= 18.4){
-            BMIresult = "Under Weight";
-            healthtext = "Malnutrition Risk";
-        }else if(bmi > 18.4 && bmi <= 24.9){
-            BMIresult = "Normal Weight";
-            healthtext = "Low Risk";
-        }else if (bmi > 24.9 && bmi <= 29.9){
-            BMIresult = "Overweight";
-            healthtext = "Enchanced Risk";
-        }else if (bmi > 29.9 && bmi <= 34.9){
-            BMIresult = "Moderately Obese";
-            healthtext = "Medium Risk";
-        }else if (bmi > 34.9 && bmi <= 39.9){
-            BMIresult = "Severely Obese";
-            healthtext = "High Risk";
-        }else if (bmi > 39.9){
-            BMIresult = "Very Severely Obese";
-            healthtext = "Very High Risk";
-        }
-        DecimalFormat df = new DecimalFormat("#.#");
-        df.setRoundingMode(RoundingMode.CEILING);
-        calculation = df.format(bmi) + " kg/m²";
-        resulttext.setText(calculation);
-        category.setText(BMIresult);
-        healthrisk.setText(healthtext);
-
-        String txt1 = weight.getText().toString();
-        String txt2 = height.getText().toString();
-        FileOutputStream fos1 = null;
-        try {
-            fos1 = openFileOutput(FILE_NAME1, MODE_PRIVATE);
-            fos1.write(txt1.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if(fos1!=null){
-                try {
-                    fos1.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        FileOutputStream fos2 = null;
-        try {
-            fos2 = openFileOutput(FILE_NAME2, MODE_PRIVATE);
-            fos2.write(txt2.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            if(fos2!=null){
-                try {
-                    fos2.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
 
